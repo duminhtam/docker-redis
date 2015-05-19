@@ -11,11 +11,11 @@ RUN sed 's/^daemonize yes/daemonize no/' -i /etc/redis/redis.conf \
  && sed 's/^# unixsocketperm 755/unixsocketperm 777/' -i /etc/redis/redis.conf \
  && sed '/^logfile/d' -i /etc/redis/redis.conf
 
-ADD start /start
-RUN chmod 755 /start
+ADD run.sh /run.sh
+RUN chmod 755 /run.sh
 
 EXPOSE 6379
 
 VOLUME ["/var/lib/redis"]
 VOLUME ["/run/redis"]
-CMD ["/start"]
+CMD ["/run.sh"]
