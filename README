@@ -1,0 +1,35 @@
+docker_redis
+====================
+
+Base docker image to run a Redis cache server
+
+
+Redis version
+---------------
+
+Usage
+-----
+
+To create the image `docker_redis`, execute the following command on the docker_redis folder:
+
+        docker build -t docker_redis .
+
+To run the image and bind to port 6379:
+
+        docker run -d -p 6379:6379 docker_redis
+
+
+Mounting the database file volume from other containers
+------------------------------------------------------
+
+One way to persist the database data is to store database files in another container.
+To do so, first create a container that holds persistent data:
+
+    docker run -d -v /var/lib/redis --name db_vol ubuntu:trusty
+
+This will create a new ssh-enabled container and use its folder `/var/lib/redis` to store Persistent data.
+You can specify any name of the container by using `--name` option, which will be used in next step.
+
+After this you can start your Redis image using volumes in the container created above (put the name of container in `--volumes-from`)
+
+    docker run -d --volumes-from db_vol -p 3306:3306 docker_redis
